@@ -27,5 +27,8 @@ jobs:
         shell: bash -el {0}
         run: |
           nextflow run main.nf -profile conda --pdb examples/1ubq.pdb --salt 0.15
+          test -s results/1ubq/system.gro
+          test -s results/1ubq/system.top
+          test -s results/1ubq/em.mdp
           cd results/1ubq
           gmx grompp -f em.mdp -c system.gro -p system.top -o em.tpr
