@@ -1,0 +1,8 @@
+.nextflow/
+.nextflow.log*
+work/
+results/
+*.tpr
+molecule_*.itp
+__pycache__/
+.DS_Store

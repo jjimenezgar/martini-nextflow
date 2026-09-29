@@ -1,0 +1,31 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+          miniforge-version: latest
+          activate-environment: martini-nextflow
+          environment-file: environment.yml
+          auto-activate-base: false
+      - name: Install Nextflow
+        shell: bash -el {0}
+        run: |
+          curl -fsSL https://get.nextflow.io | bash
+          sudo mv nextflow /usr/local/bin/nextflow
+      - name: Lint and unit test
+        shell: bash -el {0}
+        run: |
+          nextflow lint .
+          python -m unittest discover -s tests -v
+      - name: Full 1UBQ smoke and GROMACS preprocessing
+        shell: bash -el {0}
+        run: |
+          nextflow run main.nf -profile conda --pdb examples/1ubq.pdb --salt 0.15
+          cd results/1ubq
+          gmx grompp -f em.mdp -c system.gro -p system.top -o em.tpr

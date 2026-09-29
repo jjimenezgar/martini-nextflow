@@ -1,0 +1,15 @@
+name: martini-nextflow
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - python=3.11
+  - vermouth=0.15.0
+  - mdtraj=1.11.1
+  - gromacs=2025.3
+  # INSANE 1.2.0 imports pkg_resources, removed from newer setuptools.
+  - setuptools<81
+  - pip
+  - pip:
+      - insane==1.2.0
