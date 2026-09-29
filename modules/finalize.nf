@@ -1,6 +1,6 @@
 process FINALIZE {
     tag "$id"
-    publishDir { "${params.outdir}/${id}" }, mode: 'copy'
+    publishDir { "${params.outdir}/${id}" }, mode: 'copy', saveAs: { filename -> filename.toString().tokenize('/').last() }
     input:
     tuple val(id), path(cg), path(proteinTop), path(itps)
     tuple val(id2), path(system), path(insaneTop)
